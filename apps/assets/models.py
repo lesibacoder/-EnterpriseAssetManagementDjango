@@ -1,4 +1,8 @@
 from django.db import models
+from apps.suppliers.models import Supplier
+from apps.departments.models import Department
+from apps.locations.models import Location
+from apps.manufacturers.models import Manufacturer
 
 
 class AssetStatus(models.TextChoices):
@@ -63,8 +67,21 @@ class Asset(models.Model):
         blank=True
     )
 
+    manufacturer = models.ForeignKey(
+        Manufacturer,
+        on_delete=models.PROTECT,
+        related_name="assets"
+    )
+
     name = models.CharField(
         max_length=150
+    )
+    
+    serial_number = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        unique=True
     )
 
     category = models.ForeignKey(
@@ -73,6 +90,23 @@ class Asset(models.Model):
         related_name="assets"
     )
 
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.PROTECT,
+        related_name="assets"
+    )
+
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.PROTECT,
+        related_name="assets"
+    )
+
+    location = models.ForeignKey(
+        Location,
+        on_delete=models.PROTECT,
+        related_name="assets"
+    )
     status = models.CharField(
         max_length=20,
         choices=AssetStatus.choices,

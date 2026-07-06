@@ -74,8 +74,13 @@ class AssetAdmin(admin.ModelAdmin):
 
     list_display = (
         "asset_number",
+        "manufacturer",
         "name",
+        "serial_number",
         "category",
+        "supplier",
+        "department",
+        "location",
         "status",
         "purchase_date",
         "purchase_price",
@@ -104,8 +109,13 @@ class AssetAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "asset_number",
+                    "manufacturer",
                     "name",
+                    "serial_number",
                     "category",
+                    "supplier",
+                    "department",
+                    "location",
                     "status",
                 )
             },
