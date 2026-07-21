@@ -1,0 +1,353 @@
+
+{% load static %}
+
+<!--
+=========================================================================
+AssetFlow Enterprise Asset Management System
+
+File:
+base.html
+
+Purpose:
+--------
+Master template inherited by every page in AssetFlow.
+
+Responsible For:
+----------------
+✔ Sidebar Navigation
+✔ Top Navigation
+✔ Global CSS
+✔ Global JavaScript
+✔ Page Content
+
+Every page extends this template.
+
+Examples:
+
+Dashboard
+
+Assets
+
+Suppliers
+
+Maintenance
+
+Reports
+
+=========================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}AssetFlow{% endblock %}
+    </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% comment %} <link rel="stylesheet" href="/static/css/style.css"> {% endcomment %}
+
+    {% block css %}{% endblock %}
+
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!--=====================================================
+            Application Branding
+            ======================================================-->
+
+            <div class="logo">
+
+                <div class="logo-icon">
+
+                    <i class="fas fa-boxes-stacked"></i>
+
+                </div>
+
+                <h2>
+
+                    AssetFlow
+
+                </h2>
+
+                <p>
+
+                    Enterprise Asset Management
+
+                </p>
+
+            </div>
+
+            <ul class="menu">
+
+                <li class="menu-title">MAIN</li>
+
+                <li>
+
+                    <a
+                        href="{% url 'dashboard' %}"
+
+                        class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+
+                        <i class="fas fa-chart-line"></i>
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <li class="menu-title">ASSET MANAGEMENT</li>
+
+                <li>
+
+                    <a href="{% url 'asset_list' %}"
+
+                         class="{% if request.resolver_match.url_name == 'asset_list' %}active{% endif %}">
+
+                        <i class="fas fa-box me-2"></i>
+
+                        Assets
+
+                    </a>
+
+                </li>
+
+                <li><a href="#"><i class="fas fa-folder"></i> Categories</a></li>
+
+                <li><a href="#"><i class="fas fa-laptop"></i> Asset Models</a></li>
+
+                <li class="menu-title">
+
+                    ORGANISATION
+
+                </li>
+
+                <!--=====================================================
+                Employees
+                ======================================================-->
+
+                <li>
+
+                    <a
+                        href="{% url 'employee_index' %}"
+
+                        class="{% if request.resolver_match.url_name == 'employee_index' %}active{% endif %}">
+
+                        <i class="fas fa-users"></i>
+
+                        Employees
+
+                    </a>
+
+                </li>
+
+                <!--=====================================================
+                Departments
+                ======================================================-->
+
+                <li>
+
+                    <a
+                        href="{% url 'department_index' %}"
+                        class="{% if request.resolver_match.url_name == 'department_index' %}active{% endif %}">
+
+                        <i class="fas fa-building me-2"></i>
+
+                        Departments
+
+                    </a>
+                </li>
+
+                <!--=====================================================
+                Locations
+                ======================================================-->
+
+                <li>
+
+                    <a href="#">
+
+                        <i class="fas fa-location-dot"></i>
+
+                        Locations
+
+                    </a>
+
+                </li>
+                <li class="menu-title">PROCUREMENT</li>
+
+                <li><a href="#"><i class="fas fa-truck"></i> Suppliers</a></li>
+
+                <li><a href="#"><i class="fas fa-industry"></i> Manufacturers</a></li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Main Content -->
+
+        <main class="content">
+
+            <!--=====================================================
+            Top Navigation
+            ======================================================-->
+
+            <nav class="topbar">
+
+                <!-- Left Side -->
+
+                <div>
+
+                    <h3 class="page-title">
+
+                        {% block page_title %}
+
+                            Dashboard
+
+                        {% endblock %}
+
+                    </h3>
+
+                </div>
+
+                <!-- Right Side -->
+
+                <div class="topbar-right">
+
+                 <!--=====================================================
+                    Global Search
+
+                    Allows searching assets, employees, suppliers,
+                    locations and other records in future versions.
+
+                    ======================================================-->
+
+                    <div class="search-box">
+
+                        <i class="fas fa-search search-icon"></i>
+
+                        <input
+                            type="text"
+                            placeholder="Search AssetFlow...">
+
+                    </div>
+
+                    <!--=====================================================
+                    Notifications
+
+                    Displays unread system notifications.
+
+                    Future:
+                    ✔ Maintenance Alerts
+                    ✔ Asset Expiry
+                    ✔ License Expiry
+                    ✔ New Requests
+
+                    ======================================================-->
+
+                    <div class="notification-btn">
+
+                        <i class="fas fa-bell"></i>
+
+                        <span class="notification-count">
+
+                            3
+
+                        </span>
+
+                    </div>
+
+                    <!-- User -->
+
+                    <div class="user-profile">
+
+                        <div class="user-avatar">
+
+                            {{ request.user.username|first|upper }}
+
+                        </div>
+
+                       <div class="user-info">
+
+                            <strong>{{ request.user.username }}</strong>
+
+                            <small>Administrator</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            <div class="page-content">
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        {% if message.tags == "error" %}
+
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                        {% else %}
+
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+
+                        {% endif %}
+
+                            {{ message }}
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Close">
+                            </button>
+
+                            </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {% block js %}{% endblock %}
+
+</body>
+
+</html>

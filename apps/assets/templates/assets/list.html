@@ -1,0 +1,620 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assets
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg col-md-6">
+
+            <div class="card border-start border-5 border-primary shadow-sm rounded-4">
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted fw-semibold">
+                            📦 Total Assets
+                        </small>
+
+                        <h2 class="fw-bold mb-0 mt-2">
+                            {{ total_assets }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        📦
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg col-md-6">
+
+            <div class="card border-start border-5 border-success shadow-sm rounded-4">
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-success fw-semibold">
+                            ✅ Available
+                        </small>
+
+                        <h2 class="fw-bold mb-0 mt-2">
+                            {{ available_assets }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        🟢
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg col-md-6">
+
+            <div class="card border-start border-5 border-info shadow-sm rounded-4">
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-info fw-semibold">
+                            👤 Assigned
+                        </small>
+
+                        <h2 class="fw-bold mb-0 mt-2">
+                            {{ assigned_assets }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        👨‍💻
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg col-md-6">
+
+            <div class="card border-start border-5 border-warning shadow-sm rounded-4">
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-warning fw-semibold">
+                            🛠 Maintenance
+                        </small>
+
+                        <h2 class="fw-bold mb-0 mt-2">
+                            {{ maintenance_assets }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        🔧
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg col-md-6">
+
+            <div class="card border-start border-5 border-danger shadow-sm rounded-4">
+
+                <div class="card-body d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-danger fw-semibold">
+                            🚨 Lost
+                        </small>
+
+                        <h2 class="fw-bold mb-0 mt-2">
+                            {{ lost_assets }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        ❌
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+          <form method="get">
+
+            <div class="row g-3">
+
+                <!-- Search -->
+
+                <div class="col-md-3">
+
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Search asset..."
+                        value="{{ request.GET.q }}">
+
+                </div>
+
+                <!-- Status -->
+
+                <div class="col-md-3">
+
+                    <select
+                        name="status"
+                        class="form-select">
+
+                        <option value="">All Statuses</option>
+
+                        {% for value, label in statuses %}
+
+                            <option value="{{ value }}"
+                                {% if request.GET.status == value %}selected{% endif %}>
+
+                                {{ label }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Category -->
+
+                <div class="col-md-2">
+
+                    <select
+                        name="category"
+                        class="form-select">
+
+                        <option value="">All Categories</option>
+
+                        {% for category in categories %}
+
+                            <option value="{{ category.id }}"
+
+                                {% if request.GET.category == category.id|slugify %}
+
+                                    selected
+
+                                {% endif %}>
+
+                                {{ category.name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Department -->
+
+                <div class="col-md-2">
+
+                    <select
+                        name="department"
+                        class="form-select">
+
+                        <option value="">All Departments</option>
+
+                        {% for department in departments %}
+
+                            <option value="{{ department.id }}"
+
+                                {% if request.GET.department == department.id|slugify %}
+
+                                    selected
+
+                                {% endif %}>
+
+                                {{ department.name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Button -->
+
+                <div class="col-md-2 d-grid">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="fas fa-search"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-0">
+
+            <table class="table asset-table mb-0">
+
+                <thead>
+
+                    <tr>
+                        <th>
+
+                            <a href="?sort=asset_number">
+
+                                Asset No.
+
+                                ↕
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a href="?sort=name">
+
+                                Name
+
+                                ↕
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a href="?sort=category__name">
+
+                                Category
+
+                                ↕
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a href="?sort=department__name">
+
+                                Department
+
+                                ↕
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a href="?sort=status">
+
+                                Status
+
+                                ↕
+
+                            </a>
+
+                        </th>
+
+                        <th width="260">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for asset in assets %}
+
+                    <tr>
+
+                        <td>
+                            <a href="{% url 'asset_detail' asset.id %}" class="asset-link">
+                                {{ asset.asset_number }}
+                            </a>
+                        </td>
+
+                        <td>{{ asset.name }}</td>
+
+                        <td>{{ asset.category }}</td>
+
+                        <td>{{ asset.department }}</td>
+
+                        <td>
+
+                            {% if asset.status == "AVAILABLE" %}
+
+                            <span class="badge bg-success">
+
+                                Available
+
+                            </span>
+
+                            {% elif asset.status == "ASSIGNED" %}
+
+                            <span class="badge bg-primary">
+
+                                Assigned
+
+                            </span>
+
+                            {% elif asset.status == "MAINTENANCE" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Maintenance
+
+                            </span>
+
+                            {% elif asset.status == "DAMAGED" %}
+
+                            <span class="badge bg-danger">
+
+                                Damaged
+
+                            </span>
+
+                            {% elif asset.status == "LOST" %}
+
+                            <span class="badge bg-dark">
+
+                                Lost
+
+                            </span>
+
+                            {% elif asset.status == "DISPOSED" %}
+
+                            <span class="badge bg-secondary">
+
+                                Disposed
+
+                            </span>
+
+                            {% else %}
+
+                            {{ asset.status }}
+
+                            {% endif %}
+
+                        </td>
+
+                       <td class="text-nowrap">
+
+                            <!-- View -->
+
+                            <a href="{% url 'asset_detail' asset.id %}"
+                            class="action-btn text-primary"
+                            title="View Asset">
+
+                                <i class="fas fa-eye"></i>
+
+                            </a>
+
+                            <!-- Edit -->
+
+                           <a href="{% url 'asset_edit' asset.id %}"
+                            class="action-btn text-warning"
+                            title="Edit Asset">
+
+                                <i class="fas fa-pen"></i>
+
+                            </a>
+
+                            <!-- QR Code -->
+
+                            {% if asset.qr_code %}
+
+                            <a href="{{ asset.qr_code.url }}"
+                            target="_blank"
+                            class="action-btn text-info"
+                            title="View QR Code">
+
+                                <i class="fas fa-qrcode"></i>
+
+                            </a>
+
+                            {% else %}
+
+                            <button
+                                class="action-btn text-secondary"
+                                disabled
+                                title="No QR Code">
+
+                                <i class="fas fa-qrcode"></i>
+
+                            </button>
+
+                            {% endif %}
+
+                            <!-- Checkout -->
+
+                            {% if asset.status == "AVAILABLE" %}
+
+                            <a href="{% url 'checkout_asset' asset.id %}"
+                            class="action-btn text-success"
+                            title="Check Out">
+
+                                <i class="fas fa-user-check"></i>
+
+                            </a>
+
+                            <!-- Return -->
+
+                            {% elif asset.status == "ASSIGNED" %}
+
+                            <a href="{% url 'return_asset' asset.id %}"
+                            class="action-btn text-secondary"
+                            title="Return Asset">
+
+                                <i class="fas fa-undo"></i>
+
+                            </a>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            No assets found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <div class="px-3 py-2 text-muted">
+
+                Showing
+
+                {{ assets.start_index }}
+
+                -
+
+                {{ assets.end_index }}
+
+                of
+
+                {{ assets.paginator.count }}
+
+                assets
+
+            </div>
+
+            <div class="card-footer bg-white">
+
+                <nav>
+
+                    <ul class="pagination justify-content-center mb-0">
+
+                        {% if assets.has_previous %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ assets.previous_page_number }}">
+
+                                ← Previous
+
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                        {% for i in assets.paginator.page_range %}
+
+                            <li class="page-item {% if assets.number == i %}active{% endif %}">
+
+                                <a
+                                    class="page-link"
+                                    href="?page={{ i }}">
+
+                                    {{ i }}
+
+                                </a>
+
+                            </li>
+
+                        {% endfor %}
+
+                        {% if assets.has_next %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ assets.next_page_number }}">
+
+                                Next →
+
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

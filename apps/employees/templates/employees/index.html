@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+<!--==========================================================
+EMPLOYEE LIST
+
+Purpose
+--------
+Displays all employees registered in the system.
+
+Future Features
+
+✔ Sorting
+✔ Bulk Actions
+✔ Export
+✔ Pagination
+✔ Row Selection
+
+===========================================================-->
+
+{% block title %}
+Employees
+{% endblock %}
+
+{% block page_title %}
+Employees
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-end mb-4">
+
+    <a
+
+        href="{% url 'employee_create' %}"
+
+        class="btn btn-primary">
+
+        <i class="fas fa-plus me-2"></i>
+
+        Add Employee
+
+    </a>
+
+</div>
+
+<div class="card">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table asset-table align-middle mb-0">
+
+                <!--==========================================
+                Table Header
+                ==========================================-->
+
+                <thead>
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th>Employee No.</th>
+
+                        <th>Department</th>
+
+                        <th>Position</th>
+
+                        <th>Email</th>
+
+                        <th>Status</th>
+
+                        <th class="text-end">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <!--==========================================
+                Table Body
+                ==========================================-->
+
+                <tbody>
+
+                    {% for employee in employees %}
+
+                    <tr>
+
+                        <!-- Employee Profile -->
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <!--==================================
+                                Employee Photo
+
+                                If no image exists,
+                                display employee initials.
+
+                                ===================================-->
+
+                                {% if employee.profile_picture %}
+
+                                    <img
+                                        src="{{ employee.profile_picture.url }}"
+                                        class="employee-photo">
+
+                                {% else %}
+
+                                    <div class="employee-avatar">
+
+                                        {{ employee.first_name|first }}{{ employee.last_name|first }}
+
+                                    </div>
+
+                                {% endif %}
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ employee.full_name }}
+
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ employee.phone }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <!-- Employee Number -->
+
+                        <td>
+
+                            <span class="asset-link">
+
+                                {{ employee.employee_number }}
+
+                            </span>
+
+                        </td>
+
+                        <!-- Department -->
+
+                        <td>
+
+                            {{ employee.department.name }}
+
+                        </td>
+
+                        <!-- Position -->
+
+                        <td>
+
+                            {{ employee.job_title }}
+
+                        </td>
+
+                        <!-- Email -->
+
+                        <td>
+
+                            {{ employee.email }}
+
+                        </td>
+
+                        <!-- Status -->
+
+                        <td>
+
+                            {% if employee.status == "ACTIVE" %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <!-- Action Buttons -->
+
+                        <td class="text-end">
+
+                           
+
+                            <a
+                                href="{% url 'employee_detail' employee.id %}"
+                                class="action-btn"
+                                title="View">
+
+                                <i class="fas fa-eye"></i>
+
+                            </a>
+
+                            <a
+                                href="{% url 'employee_update' employee.id %}"
+                                class="action-btn"
+                                title="Edit">
+
+                                <i class="fas fa-pen"></i>
+
+                            </a>
+
+                            <a
+                                href="{% url 'employee_delete' employee.id %}"
+                                class="action-btn"
+                                title="Delete">
+
+                                <i class="fas fa-trash text-danger"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5">
+
+                            No employees found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,1501 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+
+<div class="dashboard-section">
+    <div class="container-fluid">
+
+        <!--==========================================================
+        EXECUTIVE SUMMARY
+
+        Purpose
+        --------
+        Displays a welcome message and high-level system summary.
+
+        ===========================================================-->
+
+        <div class="executive-banner mb-4">
+
+            <div class="row align-items-center">
+
+                <!-- Left -->
+
+                <div class="col-lg-8">
+
+                    <h2>
+
+                        {{ greeting }},
+
+                        <strong>{{ request.user.first_name|default:request.user.username }}</strong>
+
+                        👋
+
+                    </h2>
+
+                    <p>
+
+                        Welcome back to <strong>AssetFlow Enterprise Asset Management</strong>.
+
+                    </p>
+
+                    <small>
+
+                        Today is {{ today|date:"l, d F Y" }}
+
+                    </small>
+
+                </div>
+
+                <!-- Right -->
+
+                <div class="col-lg-4">
+
+                    <div class="executive-stats">
+
+                        <div>
+
+                            <strong>{{ total_assets }}</strong>
+
+                            <span>Assets</span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>{{ total_departments }}</strong>
+
+                            <span>Departments</span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>{{ total_suppliers }}</strong>
+
+                            <span>Suppliers</span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>{{ total_locations }}</strong>
+
+                            <span>Locations</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div> 
+
+    <!--==========================================================
+        ENTERPRISE DASHBOARD HEADER
+
+        Purpose
+        --------
+        Displays a professional welcome banner with
+        the current greeting, today's date and
+        logged in user.
+
+        ===========================================================-->
+
+        {% comment %} <div class="dashboard-header">
+
+            <div class="dashboard-header-left">
+
+                
+
+                    <h2>
+
+                        {{ greeting }},
+
+                        <strong>{{ request.user.first_name|default:request.user.username }}</strong>
+
+                        👋
+
+                    </h2>
+            
+
+                <p>
+
+                    Welcome back to
+
+                    <strong>AssetFlow Enterprise Asset Management</strong>
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-header-right">
+
+                <div class="dashboard-date">
+
+                    <i class="fas fa-calendar-days"></i>
+
+                    {{ today|date:"l, d F Y" }}
+
+                </div>
+
+                <div class="dashboard-role">
+
+                    <i class="fas fa-user-shield"></i>
+
+                    Administrator
+
+                </div>
+
+            </div>
+
+        </div>  {% endcomment %}
+
+        <!--==========================================================
+        NOTIFICATION CENTER
+        --------------------------------------------------------------
+
+        Displays important alerts requiring attention.
+
+        ===========================================================-->
+
+        <div class="notification-panel mb-4">
+
+            <div class="notification-header">
+
+                <h5>
+
+                    <i class="fas fa-bell text-warning me-2"></i>
+
+                    Notification Center
+
+                </h5>
+
+            </div>
+
+            <div class="notification-grid">
+
+                <!-- Warranty -->
+
+                <div class="notification-card warning">
+
+                    <div class="notification-icon">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            {{ notifications.warranty }}
+
+                        </strong>
+
+                        <p>
+
+                            Warranties expiring soon
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Maintenance -->
+
+                <div class="notification-card info">
+
+                    <div class="notification-icon">
+
+                        <i class="fas fa-screwdriver-wrench"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            {{ notifications.maintenance }}
+
+                        </strong>
+
+                        <p>
+
+                            Assets under maintenance
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- New Assets -->
+
+                <div class="notification-card success">
+
+                    <div class="notification-icon">
+
+                        <i class="fas fa-box"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            {{ notifications.recent_assets }}
+
+                        </strong>
+
+                        <p>
+
+                            Assets added today
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Assigned -->
+
+                <div class="notification-card primary">
+
+                    <div class="notification-icon">
+
+                        <i class="fas fa-user-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+
+                            {{ notifications.assigned }}
+
+                        </strong>
+
+                        <p>
+
+                            Assets currently assigned
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--==========================================================
+        ASSET HEALTH DASHBOARD
+
+        Purpose
+        --------
+        Displays the operational health of company assets.
+
+        ===========================================================-->
+
+        <div class="row g-4 mb-4">
+
+            <!-- Health Summary -->
+
+            <div class="col-xl-4">
+
+                <div class="card health-card h-100">
+
+                    <div class="card-body text-center">
+
+                        <h5>
+
+                            <i class="fas fa-heart-pulse text-danger me-2"></i>
+
+                            Asset Health
+
+                        </h5>
+
+                        <div class="health-score">
+
+                            {{ asset_health_score }}%
+
+                        </div>
+
+                        <p class="text-muted">
+
+                            Overall Asset Health
+
+                        </p>
+
+                        <div class="progress mt-4">
+
+                            <div
+                                class="progress-bar bg-success"
+                                style="width: {{ asset_health_score }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Doughnut Chart -->
+
+            <div class="col-xl-8">
+
+                <div class="card analytics-card h-100">
+
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+
+                            <i class="fas fa-chart-pie text-success me-2"></i>
+
+                            Asset Health Distribution
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="chart-container">
+
+                            <canvas id="assetHealthChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--==========================================================
+        STATISTICS CARDS
+
+        Purpose
+        --------
+        Displays the key statistics of the system.
+
+        These cards are reusable throughout AssetFlow.
+
+        ===========================================================-->
+
+        <div class="row g-4 mb-4">
+
+            <!-- Assets -->
+
+            <div class="col-xl-3 col-lg-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon bg-primary">
+
+                        <i class="fas fa-box"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <h6>Total Assets</h6>
+
+                        <h2>{{ total_assets }}</h2>
+
+                        <small>
+
+                            Registered Assets
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Departments -->
+
+            <div class="col-xl-3 col-lg-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon bg-success">
+
+                        <i class="fas fa-building"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <h6>Departments</h6>
+
+                        <h2>{{ total_departments }}</h2>
+
+                        <small>
+
+                            Active Departments
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Suppliers -->
+
+            <div class="col-xl-3 col-lg-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon bg-warning">
+
+                        <i class="fas fa-truck"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <h6>Suppliers</h6>
+
+                        <h2>{{ total_suppliers }}</h2>
+
+                        <small>
+
+                            Registered Suppliers
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Manufacturers -->
+
+            <div class="col-xl-3 col-lg-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon bg-danger">
+
+                        <i class="fas fa-industry"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+
+                        <h6>Manufacturers</h6>
+
+                        <h2>{{ total_manufacturers }}</h2>
+
+                        <small>
+
+                            Registered Manufacturers
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--==========================================================
+        ASSET STATUS KPI CARDS
+
+        Purpose
+        --------
+        Displays the operational health of company assets.
+
+        This section allows managers to quickly understand
+        the current asset availability and usage.
+
+        ===========================================================-->
+
+        <div class="row g-4 mb-5">
+
+            <!-- Available -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="kpi-card available">
+
+                    <div class="kpi-icon">
+
+                        <i class="fas fa-circle-check"></i>
+
+                    </div>
+
+                    <div class="kpi-details">
+
+                        <h3>{{ available_assets }}</h3>
+
+                        <span>Available Assets</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Assigned -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="kpi-card assigned">
+
+                    <div class="kpi-icon">
+
+                        <i class="fas fa-user-check"></i>
+
+                    </div>
+
+                    <div class="kpi-details">
+
+                        <h3>{{ assigned_assets }}</h3>
+
+                        <span>Assigned Assets</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Maintenance -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="kpi-card maintenance">
+
+                    <div class="kpi-icon">
+
+                        <i class="fas fa-screwdriver-wrench"></i>
+
+                    </div>
+
+                    <div class="kpi-details">
+
+                        <h3>{{ maintenance_assets }}</h3>
+
+                        <span>Under Maintenance</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Damaged -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="kpi-card damaged">
+
+                    <div class="kpi-icon">
+
+                        <i class="fas fa-triangle-exclamation"></i>
+
+                    </div>
+
+                    <div class="kpi-details">
+
+                        <h3>{{ damaged_assets }}</h3>
+
+                        <span>Damaged Assets</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--==========================================================
+        QUICK ACTIONS
+
+        Purpose
+        --------
+        Provides one-click shortcuts to common system actions.
+
+        These actions improve user productivity by reducing
+        navigation through the sidebar.
+
+        ===========================================================-->
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+
+                <h5>
+
+                    <i class="fas fa-bolt text-warning"></i>
+
+                    Quick Actions
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="quick-actions">
+
+                    <!-- Add Asset -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-primary">
+
+                            <i class="fas fa-plus"></i>
+
+                        </div>
+
+                        <span>Add Asset</span>
+
+                    </a>
+
+                    <!-- Assign Asset -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-success">
+
+                            <i class="fas fa-user-check"></i>
+
+                        </div>
+
+                        <span>Assign Asset</span>
+
+                    </a>
+
+                    <!-- Maintenance -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-warning">
+
+                            <i class="fas fa-screwdriver-wrench"></i>
+
+                        </div>
+
+                        <span>Maintenance</span>
+
+                    </a>
+
+                    <!-- Supplier -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-danger">
+
+                            <i class="fas fa-truck"></i>
+
+                        </div>
+
+                        <span>Add Supplier</span>
+
+                    </a>
+
+                    <!-- Department -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-info">
+
+                            <i class="fas fa-building"></i>
+
+                        </div>
+
+                        <span>Department</span>
+
+                    </a>
+
+                    <!-- Location -->
+
+                    <a href="#" class="quick-action">
+
+                        <div class="quick-icon bg-secondary">
+
+                            <i class="fas fa-location-dot"></i>
+
+                        </div>
+
+                        <span>Location</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--==========================================================
+        RECENT ACTIVITY
+        -----------------------------------------------------------
+
+        Purpose
+        --------
+        Shows the latest records created in the system.
+
+        Future
+        -------
+        ✔ Assignments
+        ✔ Maintenance
+        ✔ Suppliers
+        ✔ Audit Logs
+
+        ===========================================================-->
+        <!-- ==========================================================
+        ROW 1
+        Recent Activity + Warranty Alerts
+        =========================================================== -->
+        <!--==========================================================
+        ROW
+        Recent Activity + Warranty Alerts
+        ===========================================================-->
+
+        <div class="row g-4 mb-4">
+
+            <!--======================================================
+            RECENT ACTIVITY
+            ======================================================-->
+
+            <div class="col-xl-6">
+
+                <div class="card h-100">
+
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+
+                            <i class="fas fa-clock text-primary me-2"></i>
+
+                            Recent Activity
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="activity-timeline">
+
+                            {% for asset in recent_assets %}
+
+                            <div class="timeline-item">
+
+                                <div class="timeline-icon">
+
+                                    <i class="fas fa-box"></i>
+
+                                </div>
+
+                                <div class="timeline-content">
+
+                                    <h6>
+
+                                        Asset Registered
+
+                                    </h6>
+
+                                    <strong>
+
+                                        {{ asset.asset_number }}
+
+                                    </strong>
+
+                                    —
+
+                                    {{ asset.name }}
+
+                                    <small class="d-block text-muted">
+
+                                        {{ asset.created_at|timesince }} ago
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            {% empty %}
+
+                            <p class="text-muted">
+
+                                No recent activity.
+
+                            </p>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--======================================================
+            WARRANTY ALERTS
+            ======================================================-->
+
+            <div class="col-xl-6">
+
+                <div class="card h-100">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <h5 class="mb-0">
+
+                            <i class="fas fa-shield-halved text-warning me-2"></i>
+
+                            Warranty Expiring Within 30 Days
+
+                        </h5>
+
+                        <span class="badge bg-warning">
+
+                            {{ expiring_warranties|length }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="card-body p-0">
+
+                        <table class="table table-hover align-middle mb-0">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Asset</th>
+
+                                    <th>Expiry</th>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for asset in expiring_warranties %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>{{ asset.asset_number }}</strong>
+
+                                        <br>
+
+                                        <small class="text-muted">
+
+                                            {{ asset.name }}
+
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ asset.warranty_expiry|date:"d M Y" }}
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-warning">
+
+                                            Expiring Soon
+
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="3" class="text-center py-4">
+
+                                        <i class="fas fa-circle-check text-success me-2"></i>
+
+                                        No warranties expiring.
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <!--==========================================================
+        DASHBOARD ANALYTICS
+
+        Purpose
+        --------
+        Displays visual insights into the company's assets.
+
+        Contains:
+        ✔ Assets by Category
+        ✔ Assets by Status
+
+        Future:
+        ✔ Assets by Department
+        ✔ Monthly Asset Growth
+
+        ===========================================================-->
+
+        <div class="row g-4 mb-4">
+
+            <!--======================================================
+            Assets by Category
+            =======================================================-->
+
+            <div class="col-xl-6">
+
+                <div class="card analytics-card h-100">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h5 class="mb-1">
+
+                                <i class="fas fa-chart-pie text-success me-2"></i>
+
+                                Assets by Category
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Distribution of registered assets
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-success">
+
+                            {{ total_assets }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="chart-container">
+
+                            <canvas id="categoryChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--======================================================
+            Assets by Status
+            =======================================================-->
+
+            <div class="col-xl-6">
+
+                <div class="card analytics-card h-100">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h5 class="mb-1">
+
+                                <i class="fas fa-chart-column text-primary me-2"></i>
+
+                                Assets by Status
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Current operational status
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-primary">
+
+                            {{ total_assets }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="chart-container">
+
+                            <canvas id="statusChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            </div>
+            <!--==========================================================
+            ADVANCED ANALYTICS
+            --------------------------------------------------------------
+            Provides management insight into assets.
+
+            Contains
+
+            ✔ Assets by Department
+            ✔ Monthly Asset Growth
+
+            ===========================================================-->
+
+            <div class="row g-4">
+
+                <!--======================================================
+                Assets by Department
+                ======================================================-->
+
+                <div class="col-xl-6">
+
+                    <div class="card analytics-card h-100">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h5 class="mb-1">
+
+                                    <i class="fas fa-building text-info me-2"></i>
+
+                                    Assets by Department
+
+                                </h5>
+
+                                <small class="text-muted">
+
+                                    Distribution across departments
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="chart-container">
+
+                                <canvas id="departmentChart"></canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--======================================================
+                Monthly Asset Growth
+                ======================================================-->
+
+                <div class="col-xl-6">
+
+                    <div class="card analytics-card h-100">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h5 class="mb-1">
+
+                                    <i class="fas fa-chart-line text-danger me-2"></i>
+
+                                    Monthly Asset Growth
+
+                                </h5>
+
+                                <small class="text-muted">
+
+                                    Assets added per month
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="chart-container">
+
+                                <canvas id="growthChart"></canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+    const labels = [
+        {% for item in category_chart %}
+    "{{ item.category__name }}",
+        {% endfor %}
+];
+
+    const totals = [
+        {% for item in category_chart %}
+    "{{ item.total }}",
+        {% endfor %}
+];
+
+    new Chart(document.getElementById("categoryChart"), {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [{
+
+                label: "Assets",
+
+                data: totals,
+
+                backgroundColor: [
+                    "#2563eb",
+                    "#22c55e",
+                    "#f59e0b",
+                    "#ef4444",
+                    "#8b5cf6",
+                    "#06b6d4",
+                    "#ec4899"
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom"
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+    const statusLabels = [
+        {% for item in status_chart %}
+    "{{ item.status }}",
+        {% endfor %}
+];
+
+    const statusTotals = [
+        {% for item in status_chart %}
+    "{{ item.total }}",
+        {% endfor %}
+];
+
+    new Chart(document.getElementById("statusChart"), {
+
+        type: "bar",
+
+        data: {
+
+            labels: statusLabels,
+
+            datasets: [{
+
+                label: "Assets",
+
+                data: statusTotals,
+
+                backgroundColor: "#2563eb"
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+        }
+
+    });
+
+
+    /*==========================================================
+    Assets by Department
+    ==========================================================*/
+
+    new Chart(
+
+        document.getElementById("departmentChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    {% for item in department_chart %}
+
+                        "{{ item.department__name }}",
+
+                    {% endfor %}
+
+                ],
+
+                datasets: [{
+
+                    label: "Assets",
+
+                    data: [
+
+                        {% for item in department_chart %}
+
+                            {{ item.total }},
+
+                        {% endfor %}
+
+                    ],
+
+                    backgroundColor: "#06b6d4"
+
+                }]
+
+            }
+
+        }
+
+    );
+
+
+    /*==========================================================
+    Monthly Asset Growth
+    ==========================================================*/
+
+    new Chart(
+
+        document.getElementById("growthChart"),
+
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: [
+
+                    {% for item in monthly_growth %}
+
+                    "{{ item.month|date:'M Y' }}",
+
+                    {% endfor %}
+
+                    ],
+
+                datasets: [{
+
+                    label: "Assets",
+
+                    data: [
+
+                        {% for item in monthly_growth %}
+
+                            {{ item.total }},
+
+                        {% endfor %}
+
+                    ],
+
+                    borderColor: "#ef4444",
+
+                    backgroundColor: "#fee2e2",
+
+                    tension: .35,
+
+                    fill: true
+
+                }]
+
+            }
+
+        }
+
+    );
+
+    /*==========================================================
+    Asset Health Chart
+    ==========================================================*/
+
+    new Chart(
+
+        document.getElementById("assetHealthChart"),
+
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+
+                    "Available",
+
+                    "Assigned",
+
+                    "Maintenance",
+
+                    "Damaged"
+
+                ],
+
+                datasets: [{
+
+                    data: [
+
+                        {{ available_assets }},
+
+                        {{ assigned_assets }},
+
+                        {{ maintenance_assets }},
+
+                        {{ damaged_assets }}
+
+                    ],
+
+                    backgroundColor: [
+
+                        "#22c55e",
+
+                        "#2563eb",
+
+                        "#f59e0b",
+
+                        "#ef4444"
+
+                    ],
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+</script>
+
+{% endblock %}

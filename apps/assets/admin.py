@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import Category, Asset
 
+from django.utils.html import format_html
+from apps.asset_logs.utils import create_asset_log
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
 
@@ -82,6 +85,8 @@ class AssetAdmin(admin.ModelAdmin):
         "department",
         "location",
         "status",
+        "description",
+        "remarks",
         "purchase_date",
         "purchase_price",
     )
@@ -103,6 +108,55 @@ class AssetAdmin(admin.ModelAdmin):
 
     list_per_page = 20
 
+    @admin.display(description="Image Preview")
+    def image_preview(self, obj):
+
+        if obj.asset_image:
+            return format_html(
+                '<img src="{}" width="150" style="border-radius:8px;" />',
+                obj.asset_image.url
+            )
+
+        return "-"
+    
+    @admin.display(description="QR Code")
+    def qr_preview(self, obj):
+
+        if obj.qr_code:
+            return format_html(
+                '<img src="{}" width="150"/>',
+                obj.qr_code.url
+            )
+
+        return "-"
+    
+    def save_model(self, request, obj, form, change):
+
+        super().save_model(
+            request,
+            obj,
+            form,
+            change,
+        )
+
+        if change:
+
+            create_asset_log(
+                asset=obj,
+                action="Asset Updated",
+                user=request.user,
+                description="Asset information updated.",
+            )
+
+        else:
+
+            create_asset_log(
+                asset=obj,
+                action="Asset Created",
+                user=request.user,
+                description="New asset registered.",
+            )
+
     fieldsets = (
         (
             "Asset Information",
@@ -117,6 +171,15 @@ class AssetAdmin(admin.ModelAdmin):
                     "department",
                     "location",
                     "status",
+                    "description",
+                    "remarks",
+                    "asset_image",
+
+                    "image_preview",
+
+                    "qr_code",
+                    "qr_preview",
+                   
                 )
             },
         ),
@@ -134,4 +197,6 @@ class AssetAdmin(admin.ModelAdmin):
 
     readonly_fields = (
         "asset_number",
+        "image_preview",
+        "qr_preview",
     )

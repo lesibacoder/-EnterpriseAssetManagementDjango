@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ asset.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-md-2 text-center">
+
+                            {% if asset.asset_image %}
+
+                            <img src="{{ asset.asset_image.url }}" class="img-fluid rounded shadow"
+                                style="max-height:150px;">
+
+                            {% else %}
+
+                            <img src="https://placehold.co/150x150?text=No+Image" class="img-fluid rounded">
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <h2>
+
+                                {{ asset.name }}
+
+                            </h2>
+
+
+                            <p class="text-muted">
+
+                                {{ asset.asset_number }}
+
+                            </p>
+
+
+                            {% if asset.status == "AVAILABLE" %}
+
+                            <a href="{% url 'checkout_asset' asset.id %}" class="btn btn-primary">
+
+                                <i class="fas fa-user-check"></i>
+
+                                Check Out
+
+                            </a>
+
+                            {% elif asset.status == "ASSIGNED" %}
+
+                            <a href="{% url 'return_asset' asset.id %}" class="btn btn-warning">
+
+                                <i class="fas fa-undo"></i>
+
+                                Return Asset
+
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-2 text-end">
+
+                            {% if asset.status == "AVAILABLE" %}
+
+                            <span class="badge bg-success">
+
+                                Available
+
+                            </span>
+
+                            {% elif asset.status == "ASSIGNED" %}
+
+                            <span class="badge bg-primary">
+
+                                Assigned
+
+                            </span>
+
+                            {% elif asset.status == "MAINTENANCE" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Maintenance
+
+                            </span>
+
+                            {% elif asset.status == "DAMAGED" %}
+
+                            <span class="badge bg-danger">
+
+                                Damaged
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                {{ asset.status }}
+
+                            </span>
+
+                            {% endif %}
+
+
+                            {% if asset.qr_code %}
+
+                            <hr>
+
+                            <img src="{{ asset.qr_code.url }}" width="150" class="img-thumbnail">
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    Asset Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Asset Number</th>
+                            <td>{{ asset.asset_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Serial Number</th>
+                            <td>{{ asset.serial_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Category</th>
+                            <td>{{ asset.category }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Manufacturer</th>
+                            <td>{{ asset.manufacturer }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Supplier</th>
+                            <td>{{ asset.supplier }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ asset.department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Location</th>
+                            <td>{{ asset.location }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    Purchase Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Purchase Date</th>
+                            <td>{{ asset.purchase_date }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Purchase Price</th>
+                            <td>R {{ asset.purchase_price }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Warranty Expiry</th>
+                            <td>{{ asset.warranty_expiry }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    Current Assignment
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if current_assignment %}
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Assignment No.</th>
+                            <td>{{ current_assignment.assignment_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Employee</th>
+                            <td>{{ current_assignment.employee }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Assigned Date</th>
+                            <td>{{ current_assignment.assigned_date }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Expected Return</th>
+                            <td>{{ current_assignment.expected_return_date }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ current_assignment.status }}
+
+                                </span>
+
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    {% else %}
+
+                    <div class="alert alert-success mb-0">
+
+                        This asset is currently available.
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    Assignment History
+
+                </div>
+
+                <div class="card-body p-0">
+
+                    <table class="table table-hover mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Assignment</th>
+                                <th>Employee</th>
+                                <th>Assigned</th>
+                                <th>Returned</th>
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for assignment in assignment_history %}
+
+                            <tr>
+
+                                <td>{{ assignment.assignment_number }}</td>
+
+                                <td>{{ assignment.employee }}</td>
+
+                                <td>{{ assignment.assigned_date }}</td>
+
+                                <td>{{ assignment.returned_date|default:"-" }}</td>
+
+                                <td>
+
+                                    {% if assignment.status == "ASSIGNED" %}
+
+                                    <span class="badge bg-success">
+
+                                        Assigned
+
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Returned
+
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="5" class="text-center">
+
+                                    No assignment history found.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-white fw-semibold">
+
+                    <i class="fas fa-paperclip me-2"></i>
+
+                    Attachments
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if attachments %}
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Uploaded</th>
+                                <th>File</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for attachment in attachments %}
+
+                            <tr>
+
+                                <td>{{ attachment.title }}</td>
+
+                                <td>{{ attachment.get_attachment_type_display }}</td>
+
+                                <td>{{ attachment.uploaded_at|date:"d M Y" }}</td>
+
+                                <td>
+
+                                    <a href="{{ attachment.file.url }}" target="_blank" class="btn btn-sm btn-primary">
+
+                                        <i class="fas fa-eye"></i>
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                    {% else %}
+
+                    <div class="alert alert-info mb-0">
+
+                        No attachments available for this asset.
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

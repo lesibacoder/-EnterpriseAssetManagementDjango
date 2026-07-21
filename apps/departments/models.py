@@ -1,59 +1,89 @@
 from django.db import models
 
 
-class Department(models.Model):
-    """
-    Stores company departments.
-    """
+class DepartmentStatus(models.TextChoices):
 
-    code = models.CharField(
+    ACTIVE = "ACTIVE", "Active"
+    INACTIVE = "INACTIVE", "Inactive"
+
+
+class Department(models.Model):
+
+    department_number = models.CharField(
         max_length=20,
         unique=True,
-        blank=True
+        blank=True,
     )
 
     name = models.CharField(
-        max_length=150,
-        unique=True
+        max_length=100,
+        unique=True,
     )
 
     description = models.TextField(
         blank=True,
-        null=True
     )
 
-    is_active = models.BooleanField(
-        default=True
+    manager = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
+    email = models.EmailField(
+        blank=True,
+    )
+
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+    )
+
+    location = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=DepartmentStatus.choices,
+        default=DepartmentStatus.ACTIVE,
     )
 
     created_at = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
     )
 
     updated_at = models.DateTimeField(
-        auto_now=True
+        auto_now=True,
     )
-
-    def __str__(self):
-        return self.name
 
     def save(self, *args, **kwargs):
 
-        if not self.code:
+        if not self.department_number:
 
-            last_department = Department.objects.order_by("id").last()
+            last = Department.objects.order_by("-id").first()
 
-            if last_department:
-                last_number = int(last_department.code.replace("DEP", ""))
-                next_number = last_number + 1
+            if last:
+
+                number = int(last.department_number.replace("DEP", "")) + 1
+
             else:
-                next_number = 1
 
-            self.code = f"DEP{next_number:05d}"
+                number = 1
+
+            self.department_number = f"DEP{number:06d}"
 
         super().save(*args, **kwargs)
 
+    @property
+    def employee_count(self):
+
+        return self.employees.count()
+
+    def __str__(self):
+
+        return self.name
+
     class Meta:
+
         ordering = ["name"]
-        verbose_name = "Department"
-        verbose_name_plural = "Departments"

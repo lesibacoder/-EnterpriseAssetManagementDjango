@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import Department
 
 
@@ -6,58 +7,92 @@ from .models import Department
 class DepartmentAdmin(admin.ModelAdmin):
 
     list_display = (
-        "code",
+
+        "department_number",
         "name",
-        "is_active",
+        "manager",
+        "location",
+        "status",
+
     )
 
     search_fields = (
-        "code",
+
+        "department_number",
         "name",
+        "manager",
+
     )
 
     list_filter = (
-        "is_active",
+
+        "status",
+
+    )
+
+    readonly_fields = (
+
+        "department_number",
+        "created_at",
+        "updated_at",
+
     )
 
     ordering = (
+
         "name",
+
     )
 
     list_per_page = 20
 
     fieldsets = (
+
         (
             "Department Information",
             {
                 "fields": (
-                    "code",
+
+                    "department_number",
+
                     "name",
+
                     "description",
+
+                    "manager",
+
+                    "email",
+
+                    "phone",
+
+                    "location",
+
                 )
             },
         ),
+
         (
             "Status",
             {
                 "fields": (
-                    "is_active",
+
+                    "status",
+
                 )
             },
         ),
+
         (
             "Audit Information",
             {
                 "fields": (
+
                     "created_at",
+
                     "updated_at",
+
                 )
             },
         ),
-    )
 
-    readonly_fields = (
-        "code",
-        "created_at",
-        "updated_at",
     )

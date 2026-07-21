@@ -1,0 +1,3262 @@
+/*======================================================================
+=========================================================================
+
+                    ASSETFLOW DESIGN SYSTEM
+                    Enterprise Asset Management System
+
+    File:
+        style.css
+
+    Purpose:
+        Global stylesheet used throughout AssetFlow.
+
+    This file contains the shared styling used by:
+
+        ✔ Layout
+        ✔ Sidebar
+        ✔ Top Navigation
+        ✔ Dashboard
+        ✔ Tables
+        ✔ Forms
+        ✔ Buttons
+        ✔ Cards
+        ✔ Badges
+        ✔ Pagination
+
+    Styling Philosophy
+
+        • Modern
+        • Enterprise
+        • Clean
+        • Responsive
+        • Reusable
+        • Consistent
+
+=======================================================================
+=======================================================================*/
+
+/*======================================================================
+RESET
+----------------------------------------------------------------------
+
+Purpose
+
+Removes browser default spacing.
+
+Every browser has different default margins and paddings.
+
+We reset everything so every page starts from the same layout.
+
+======================================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+/*======================================================================
+GLOBAL PAGE
+
+This styles the entire website.
+
+Future Improvements
+
+✔ Inter Font
+✔ Dark Mode
+✔ Theme Switching
+
+======================================================================*/
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:#f5f7fb;
+
+}
+
+/*======================================================================
+APPLICATION LAYOUT
+
+.wrapper
+
+Main container of the application.
+
+Contains
+
+Sidebar
+Main Content
+
+Uses Flexbox.
+
+======================================================================*/
+
+.wrapper{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/*======================================================================
+SIDEBAR
+
+Purpose
+
+Primary navigation for AssetFlow.
+
+Contains
+
+Dashboard
+
+Assets
+
+Maintenance
+
+Suppliers
+
+Reports
+
+Future Improvements
+
+✔ Collapse
+
+✔ Active Menu
+
+✔ Icons
+
+✔ User Profile
+
+✔ Notifications
+
+======================================================================*/
+
+.sidebar{
+
+    width:260px;
+
+    background:#1e293b;
+
+    color:white;
+
+    padding:20px;
+
+}
+
+/*======================================================================
+APPLICATION BRANDING
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays the application logo and company branding.
+
+======================================================================*/
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.logo-icon{
+
+    width:70px;
+
+    height:70px;
+
+    margin:auto;
+
+    border-radius:18px;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:28px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 15px 35px rgba(37,99,235,.30);
+
+}
+
+.logo h2{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:white;
+
+    margin-bottom:6px;
+
+}
+
+.logo p{
+
+    font-size:13px;
+
+    color:#94a3b8;
+
+}
+
+/*======================================================================
+SIDEBAR MENU LINKS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Navigation links displayed in the left sidebar.
+
+======================================================================*/
+
+.menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    color:#cbd5e1;
+
+    text-decoration:none;
+
+    transition: background .30s, transform .30s, box-shadow .30s;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    position:relative;
+
+}
+
+.menu a:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+    transform:translateX(6px);
+
+}
+
+/* Left Active Indicator */
+
+.menu a.active::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:8px;
+
+    bottom:8px;
+
+    width:4px;
+
+    background:white;
+
+    border-radius:10px;
+
+}
+
+/*======================================================================
+ACTIVE SIDEBAR MENU
+----------------------------------------------------------------------
+
+Purpose
+--------
+Highlights the page the user is currently viewing.
+
+Future Improvements
+
+✔ Left Indicator
+✔ Permission Colours
+✔ Animation
+
+======================================================================*/
+
+.menu a.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:600;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+
+}
+
+.menu a.active i{
+
+    color:white;
+
+}
+
+.menu li{
+
+    margin-bottom:10px;
+
+}
+
+/*======================================================================
+SIDEBAR LIST
+----------------------------------------------------------------------
+
+Purpose
+--------
+Removes the browser's default list styling.
+
+======================================================================*/
+
+.menu{
+
+    list-style:none;
+
+    margin:0;
+
+    padding:0;
+
+}
+
+.menu li{
+
+    list-style:none;
+
+}
+
+.menu-title{
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    margin:35px 0 18px;
+
+}
+
+/*======================================================================
+MAIN CONTENT
+----------------------------------------------------------------------
+
+The sidebar remains fixed while the content scrolls.
+
+======================================================================*/
+
+.content{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:100vh;
+
+}
+
+/*======================================================================
+TOP NAVIGATION BAR
+----------------------------------------------------------------------
+
+Purpose
+--------
+The top navigation is displayed on every page.
+
+Responsibilities
+
+• Display page title
+• Global Search
+• Notifications
+• Logged in User
+• Future Settings Menu
+
+Future Improvements
+
+✔ Notification Dropdown
+✔ User Avatar
+✔ Search Suggestions
+✔ Dark Mode Toggle
+
+======================================================================*/
+
+/*======================================================================
+TOP NAVIGATION BAR
+----------------------------------------------------------------------
+
+Purpose
+--------
+Sticky navigation that remains visible while scrolling.
+
+Contains
+--------
+✔ Page Title
+✔ Search
+✔ Notifications
+✔ User Profile
+
+======================================================================*/
+
+.topbar{
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    height: 75px;
+
+    padding: 0 30px;
+
+    background: rgba(255,255,255,.95);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow: 0 4px 20px rgba(15,23,42,.05);
+
+    transition: box-shadow .3s ease, background .3s ease;
+
+}
+/*======================================================================
+PAGE CONTENT
+----------------------------------------------------------------------
+
+Purpose
+
+Main working area of every AssetFlow page.
+
+Future Improvements
+
+✔ Responsive spacing
+
+✔ Breadcrumb support
+
+✔ Page transitions
+
+======================================================================*/
+
+/*======================================================================
+PAGE CONTENT
+
+Scrollable dashboard area.
+
+======================================================================*/
+
+.page-content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+/* Menu Group Headings */
+
+.menu-title{
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    margin-top:25px;
+
+    margin-bottom:10px;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+
+.dashboard-card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    transition: .3s;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+
+}
+
+.dashboard-card:hover {
+
+    transform: translateY(-5px);
+
+}
+
+.dashboard-card .card-body {
+
+    padding: 25px;
+
+}
+
+.card-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    font-size: 24px;
+
+    margin-bottom: 20px;
+
+}
+
+.dashboard-card h6 {
+
+    color: #6c757d;
+
+    margin-bottom: 10px;
+
+}
+
+.dashboard-card h2 {
+
+    font-weight: 700;
+
+    margin: 0;
+
+}
+
+/* ===============================
+   AssetFlow Professional Theme
+================================ */
+
+:root{
+
+    --primary:#2563eb;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --dark:#334155;
+    --border:#e5e7eb;
+    --bg:#f8fafc;
+
+}
+
+body{
+    background:var(--bg);
+}
+
+/* ===============================
+   Cards
+================================ */
+
+.card{
+
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.05);
+
+}
+
+/* ===============================
+   Table
+================================ */
+
+.asset-table{
+
+    border-collapse:separate;
+    border-spacing:0;
+}
+
+.asset-table thead{
+
+    background:#fff;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+}
+
+.asset-table th{
+
+    padding:18px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#475569;
+
+    border-bottom:2px solid #eef2f7;
+
+    white-space:nowrap;
+}
+
+.asset-table td{
+
+    padding:18px;
+
+    vertical-align:middle;
+
+    border-bottom:1px solid #f1f5f9;
+}
+
+.asset-table tbody tr{
+
+    transition:.25s;
+}
+
+.asset-table tbody tr:hover{
+
+    background:#f8fbff;
+
+    transform:scale(1.003);
+}
+
+/* ===============================
+   Links
+================================ */
+
+.asset-link{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:700;
+}
+
+.asset-link:hover{
+
+    color:#1d4ed8;
+}
+
+/* ===============================
+   Status Badges
+================================ */
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.bg-status-success{
+
+    background:#dcfce7!important;
+
+    color:#15803d!important;
+}
+
+.status-primary{
+    background:#dbeafe!important;
+
+    color:#1d4ed8!important;
+}
+
+.status-warning{
+    background:#fef3c7!important;
+
+    color:#92400e!important;
+}
+
+.status-danger{
+
+    background:#fee2e2!important;
+
+    color:#b91c1c!important;
+}
+
+.bg-dark{
+
+    background:#e2e8f0!important;
+
+    color:#334155!important;
+}
+
+.bg-secondary{
+
+    background:#f1f5f9!important;
+
+    color:#475569!important;
+}
+
+/* ===============================
+   Buttons
+================================ */
+
+.action-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:40px;
+
+    height:40px;
+
+    margin-right:6px;
+
+    border-radius:12px;
+
+    background:#ffffff;
+
+    border:1px solid #e2e8f0;
+
+    text-decoration:none;
+
+    transition:all .25s ease;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+}
+
+.action-btn i{
+
+    font-size:15px;
+
+}
+
+.action-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(37,99,235,.15);
+
+    background:#f8fafc;
+
+}
+
+/* ===============================
+   Search Area
+================================ */
+
+.search-card{
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:white;
+
+    margin-bottom:25px;
+}
+
+.form-control,
+.form-select{
+
+    height:48px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe4ef;
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    box-shadow:none;
+
+    border-color:#2563eb;
+}
+
+/* ===============================
+   Pagination
+================================ */
+
+.pagination .page-link{
+
+    border:none;
+
+    border-radius:10px;
+
+    margin:0 3px;
+
+    color:#2563eb;
+
+    font-weight:600;
+}
+
+.pagination .active .page-link{
+
+    background:#2563eb;
+
+    color:white;
+}
+
+/* Asset Number Link */
+.asset-link{
+    color: #2563eb;
+    text-decoration: none !important;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.asset-link:hover{
+    color: #1d4ed8;
+    text-decoration: none !important;
+}
+
+.asset-table a,
+.asset-table a:link,
+.asset-table a:visited,
+.asset-table a:hover,
+.asset-table a:active{
+    text-decoration: none !important;
+    color: #2563eb;
+}
+
+.asset-table a:hover{
+    color:#1d4ed8;
+}
+
+
+/*======================================================================
+TOPBAR COMPONENTS
+----------------------------------------------------------------------
+
+Reusable styles used inside the top navigation.
+
+======================================================================*/
+
+/* Page Title */
+
+.page-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+/*=========================================================
+TOPBAR RIGHT SECTION
+
+Contains:
+- Search box
+- Notification icon
+- Logged-in user
+
+=========================================================*/
+
+.topbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-end;
+
+    gap:20px;
+
+}
+
+/*======================================================================
+GLOBAL SEARCH BAR
+----------------------------------------------------------------------
+
+Purpose
+--------
+Global search available on every page.
+
+Future Improvements
+
+✔ Live Search
+✔ Search Suggestions
+✔ Search History
+✔ Keyboard Shortcut (Ctrl + K)
+
+======================================================================*/
+
+.search-box{
+
+    position:relative;
+
+    width:320px;
+
+}
+
+/*----------------------------------------------------------------------
+Search Input
+----------------------------------------------------------------------*/
+
+.search-box input{
+
+    width:100%;
+
+    height:46px;
+
+    padding-left:45px;
+
+    padding-right:15px;
+
+    border:1px solid #dbe4ef;
+
+    border-radius:14px;
+
+    background:#f8fafc;
+
+    font-size:14px;
+
+    color:#334155;
+
+    transition:all .30s ease;
+
+}
+
+/*----------------------------------------------------------------------
+Placeholder
+----------------------------------------------------------------------*/
+
+.search-box input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+/*----------------------------------------------------------------------
+Focus Effect
+----------------------------------------------------------------------*/
+
+.search-box input:focus{
+
+    outline:none;
+
+    background:white;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+/*----------------------------------------------------------------------
+Search Icon
+----------------------------------------------------------------------*/
+
+.search-icon{
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+    pointer-events:none;
+
+}
+
+/*----------------------------------------------------------------------
+Animate Icon on Focus
+----------------------------------------------------------------------*/
+
+.search-box:focus-within .search-icon{
+
+    color:#2563eb;
+
+}
+
+/*======================================================================
+NOTIFICATION BUTTON
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays system notifications.
+
+Future Improvements
+
+✔ Dropdown
+✔ Animation
+✔ Real-time Notifications
+✔ Click Outside to Close
+
+======================================================================*/
+
+.notification-btn{
+
+    position:relative;
+
+    width:46px;
+
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:white;
+
+    border:1px solid #e2e8f0;
+
+    cursor:pointer;
+
+    transition:all .30s ease;
+
+}
+
+.notification-btn i{
+
+    font-size:18px;
+
+    color:#475569;
+
+    transition:.30s;
+
+}
+
+.notification-btn:hover{
+
+    background:#2563eb;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(37,99,235,.18);
+
+}
+
+.notification-btn:hover i{
+
+    color:white;
+
+}
+
+/*----------------------------------------------------------------------
+Unread Notification Count
+----------------------------------------------------------------------*/
+
+.notification-count{
+
+    position:absolute;
+
+    top:-5px;
+
+    right:-5px;
+
+    width:20px;
+
+    height:20px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    color:white;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:2px solid white;
+
+}
+
+/*======================================================================
+USER PROFILE
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays the logged-in user's information.
+
+======================================================================*/
+
+.user-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:8px 14px;
+
+    border-radius:14px;
+
+    transition:.30s;
+
+    cursor:pointer;
+
+}
+
+.user-profile:hover{
+
+    background:#f8fafc;
+
+}
+
+/*----------------------------------------------------------------------
+User Avatar
+----------------------------------------------------------------------*/
+
+.user-avatar{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:0 6px 15px rgba(37,99,235,.25);
+
+}
+
+/*----------------------------------------------------------------------
+User Information
+----------------------------------------------------------------------*/
+
+.user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    line-height:1.2;
+
+}
+
+.user-info strong{
+
+    font-size:15px;
+
+    color:#1e293b;
+
+    font-weight:700;
+
+}
+
+.user-info small{
+
+    color:#64748b;
+
+    font-size:12px;
+
+}
+
+/*======================================================================
+DASHBOARD HEADER
+----------------------------------------------------------------------
+
+Purpose
+--------
+Professional welcome section shown at the top of the dashboard.
+
+======================================================================*/
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:35px;
+
+    margin-bottom:30px;
+
+    border-radius:20px;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    box-shadow:0 15px 35px rgba(37,99,235,.25);
+
+}
+
+.dashboard-header-left h1{
+
+    font-size:36px;
+
+    font-weight:700;
+
+    margin:8px 0;
+
+}
+
+.dashboard-greeting{
+
+    font-size:18px;
+
+    opacity:.95;
+
+}
+
+.dashboard-header-left p{
+
+    margin:0;
+
+    font-size:16px;
+
+    opacity:.9;
+
+}
+
+.dashboard-header-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.dashboard-date,
+
+.dashboard-role{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:rgba(255,255,255,.15);
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    backdrop-filter:blur(10px);
+
+}
+
+/*======================================================================
+STATISTICS CARDS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Reusable statistics cards used throughout the system.
+
+Used On
+-------
+✔ Dashboard
+✔ Reports
+✔ Suppliers
+✔ Assets
+✔ Maintenance
+
+======================================================================*/
+
+.stat-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    transition:all .30s ease;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    height:100%;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.15);
+
+}
+
+.stat-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:28px;
+
+    flex-shrink:0;
+
+}
+
+.stat-info{
+
+    flex:1;
+
+}
+
+.stat-info h6{
+
+    margin:0;
+
+    color:#64748b;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.stat-info h2{
+
+    margin:8px 0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.stat-info small{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+/*======================================================================
+QUICK ACTIONS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays one-click shortcuts for frequently used actions.
+
+Used On
+-------
+✔ Dashboard
+
+Future Improvements
+-------------------
+✔ Permissions
+✔ Notifications
+✔ Favourite Actions
+
+======================================================================*/
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+}
+
+.quick-action{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    background:#f8fafc;
+
+    transition:all .30s ease;
+
+    border:1px solid #e2e8f0;
+
+}
+
+.quick-action:hover{
+
+    transform:translateY(-6px);
+
+    background:white;
+
+    box-shadow:0 15px 30px rgba(37,99,235,.12);
+
+}
+
+.quick-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:24px;
+
+    margin-bottom:15px;
+
+}
+
+.quick-action span{
+
+    color:#334155;
+
+    font-weight:600;
+
+    font-size:15px;
+
+}
+
+/*======================================================================
+RECENT ACTIVITY
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays the latest system activity.
+
+======================================================================*/
+
+.activity-card{
+
+    border-radius:20px;
+
+}
+
+.activity-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #eef2f7;
+
+}
+
+.activity-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.activity-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:20px;
+
+    flex-shrink:0;
+
+}
+
+.activity-content{
+
+    flex:1;
+
+}
+
+.activity-content strong{
+
+    color:#1e293b;
+
+}
+
+.activity-content small{
+
+    color:#94a3b8;
+
+}
+
+/*======================================================================
+ACTIVITY ICON COLOURS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Colours used by dashboard activity icons.
+
+Avoids conflicts with Bootstrap utility classes.
+
+======================================================================*/
+
+.activity-blue{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.activity-green{
+
+    background:#22c55e;
+
+    color:white;
+
+}
+
+.activity-orange{
+
+    background:#f59e0b;
+
+    color:white;
+
+}
+
+.activity-red{
+
+    background:#ef4444;
+
+    color:white;
+
+}
+/*======================================================================
+ASSET STATUS KPI CARDS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays the operational status of assets.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.kpi-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    background:#ffffff;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    transition:.30s;
+
+    border-left:6px solid transparent;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+}
+
+.kpi-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.10);
+
+}
+
+.kpi-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    color:white;
+
+    flex-shrink:0;
+
+}
+
+.kpi-details{
+
+    flex:1;
+
+}
+
+.kpi-details h3{
+
+    margin:0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.kpi-details span{
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+/*=========================================================
+AVAILABLE
+=========================================================*/
+
+.available{
+
+    border-color:#22c55e;
+
+}
+
+.available .kpi-icon{
+
+    background:#22c55e;
+
+}
+
+/*=========================================================
+ASSIGNED
+=========================================================*/
+
+.assigned{
+
+    border-color:#2563eb;
+
+}
+
+.assigned .kpi-icon{
+
+    background:#2563eb;
+
+}
+
+/*=========================================================
+MAINTENANCE
+=========================================================*/
+
+.maintenance{
+
+    border-color:#f59e0b;
+
+}
+
+.maintenance .kpi-icon{
+
+    background:#f59e0b;
+
+}
+
+/*=========================================================
+DAMAGED
+=========================================================*/
+
+.damaged{
+
+    border-color:#ef4444;
+
+}
+
+.damaged .kpi-icon{
+
+    background:#ef4444;
+
+}
+
+/*======================================================================
+ANALYTICS CARDS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Professional dashboard chart cards.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.analytics-card{
+
+    border:none;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    transition:.30s;
+
+}
+
+.analytics-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
+
+}
+
+/*=========================================================
+CARD HEADER
+=========================================================*/
+
+.analytics-card .card-header{
+
+    background:#ffffff;
+
+    padding:20px 24px;
+
+    border-bottom:1px solid #eef2f7;
+
+}
+
+.analytics-card .card-header h5{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.analytics-card .card-header small{
+
+    color:#64748b;
+
+}
+
+/*=========================================================
+CHART CONTAINER
+=========================================================*/
+
+.chart-container{
+
+    position:relative;
+
+    height:360px;
+
+    width:100%;
+
+}
+
+/*=========================================================
+CHART BADGES
+=========================================================*/
+
+.analytics-card .badge{
+
+    font-size:13px;
+
+    padding:10px 14px;
+
+    border-radius:30px;
+
+}
+
+/*======================================================================
+EXECUTIVE SUMMARY
+----------------------------------------------------------------------
+
+Purpose
+--------
+Professional dashboard welcome banner.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.executive-banner{
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 20px 45px rgba(37,99,235,.20);
+
+}
+
+.executive-banner h2{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+.executive-banner p{
+
+    margin-bottom:8px;
+
+    font-size:16px;
+
+    opacity:.95;
+
+}
+
+.executive-banner small{
+
+    opacity:.85;
+
+}
+
+.executive-stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+}
+
+.executive-stats div{
+
+    background:rgba(255,255,255,.15);
+
+    padding:18px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    backdrop-filter:blur(8px);
+
+}
+
+.executive-stats strong{
+
+    display:block;
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+.executive-stats span{
+
+    font-size:13px;
+
+    opacity:.90;
+
+}
+
+/*======================================================================
+NOTIFICATION CENTER
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays key dashboard alerts.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.notification-panel{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+
+}
+
+.notification-header{
+
+    margin-bottom:20px;
+
+}
+
+.notification-header h5{
+
+    margin:0;
+
+    font-weight:700;
+
+}
+
+.notification-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:18px;
+
+}
+
+.notification-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    transition:.30s;
+
+    border-left:5px solid transparent;
+
+}
+
+.notification-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.notification-icon{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:22px;
+
+}
+
+.notification-card strong{
+
+    display:block;
+
+    font-size:26px;
+
+    color:#1e293b;
+
+}
+
+.notification-card p{
+
+    margin:0;
+
+    color:#64748b;
+
+}
+
+/*--------------------------------------------------------------
+Notification Colours
+--------------------------------------------------------------*/
+
+.warning{
+
+    background:#fffbeb;
+
+    border-color:#f59e0b;
+
+}
+
+.warning .notification-icon{
+
+    background:#f59e0b;
+
+}
+
+.info{
+
+    background:#eff6ff;
+
+    border-color:#3b82f6;
+
+}
+
+.info .notification-icon{
+
+    background:#3b82f6;
+
+}
+
+.success{
+
+    background:#ecfdf5;
+
+    border-color:#22c55e;
+
+}
+
+.success .notification-icon{
+
+    background:#22c55e;
+
+}
+
+.primary{
+
+    background:#eef2ff;
+
+    border-color:#6366f1;
+
+}
+
+.primary .notification-icon{
+
+    background:#6366f1;
+
+}
+
+/*======================================================================
+ASSET HEALTH DASHBOARD
+----------------------------------------------------------------------
+
+Purpose
+--------
+Displays overall asset health.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.health-card{
+
+    border:none;
+
+    border-radius:22px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.06);
+
+}
+
+.health-score{
+
+    font-size:64px;
+
+    font-weight:700;
+
+    color:#22c55e;
+
+    margin:25px 0;
+
+}
+
+.health-card .progress{
+
+    height:14px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.health-card .progress-bar{
+
+    transition:width .8s ease;
+
+}
+
+/*======================================================================
+ACTIVITY TIMELINE
+----------------------------------------------------------------------
+
+Purpose
+--------
+Professional activity timeline.
+
+Used On
+-------
+✔ Dashboard
+
+======================================================================*/
+
+.activity-timeline{
+
+    position:relative;
+
+}
+
+/*=========================================================
+TIMELINE ITEM
+=========================================================*/
+
+.timeline-item{
+
+    display:flex;
+
+    gap:20px;
+
+    position:relative;
+
+    padding-bottom:30px;
+
+}
+
+/* Vertical Line */
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:23px;
+
+    top:48px;
+
+    width:2px;
+
+    height:100%;
+
+    background:#e2e8f0;
+
+}
+
+/* Last Item */
+
+.timeline-item:last-child::before{
+
+    display:none;
+
+}
+
+/*=========================================================
+TIMELINE ICON
+=========================================================*/
+
+.timeline-icon{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:18px;
+
+    flex-shrink:0;
+
+    box-shadow:0 8px 20px rgba(34,197,94,.25);
+
+}
+
+/*=========================================================
+TIMELINE CONTENT
+=========================================================*/
+
+.timeline-content{
+
+    background:#f8fafc;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    flex:1;
+
+    transition:.30s;
+
+}
+
+.timeline-content:hover{
+
+    background:#eef6ff;
+
+    transform:translateX(5px);
+
+}
+
+.timeline-content h6{
+
+    margin-bottom:8px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.timeline-content strong{
+
+    color:#2563eb;
+
+}
+
+.timeline-content small{
+
+    margin-top:8px;
+
+}
+
+/*======================================================================
+ENTERPRISE CARD HEADERS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Provides a consistent design for all dashboard cards.
+
+Used On
+-------
+✔ Dashboard
+✔ Reports
+✔ Employees
+✔ Assets
+
+======================================================================*/
+
+.card{
+
+    border:none;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 30px rgba(15,23,42,.06);
+
+    transition:all .30s ease;
+
+}
+
+/*=========================================================
+CARD HOVER EFFECT
+=========================================================*/
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 18px 45px rgba(15,23,42,.12);
+
+}
+
+/*=========================================================
+CARD HEADER
+=========================================================*/
+
+.card-header{
+
+    background:#ffffff;
+
+    border-bottom:1px solid #edf2f7;
+
+    padding:18px 24px;
+
+}
+
+/*=========================================================
+CARD TITLE
+=========================================================*/
+
+.card-header h5{
+
+    margin:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+/*=========================================================
+CARD HEADER ICON
+=========================================================*/
+
+.card-header h5 i{
+
+    width:38px;
+
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+}
+
+/*=========================================================
+STANDARD CARD BODY
+=========================================================*/
+
+.card-body{
+
+    padding:24px;
+
+}
+
+/*=========================================================
+DASHBOARD ROW SPACING
+=========================================================*/
+
+.dashboard-section{
+
+    margin-bottom:30px;
+
+}
+/*=========================================================
+ENTERPRISE TABLE
+=========================================================*/
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#f8fafc;
+
+}
+
+.table th{
+
+    border:none;
+
+    color:#64748b;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+.table td{
+
+    border-color:#f1f5f9;
+
+    vertical-align:middle;
+
+    padding:18px;
+
+}
+
+.table-hover tbody tr{
+
+    transition:.25s;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#f8fbff;
+
+}
+
+.chart-container{
+
+    transition:.35s;
+
+}
+
+.analytics-card:hover .chart-container{
+
+    transform:scale(1.02);
+
+}
+
+@media (max-width:768px){
+
+    .executive-banner{
+
+        text-align:center;
+
+    }
+
+    .executive-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        height:auto;
+
+        gap:15px;
+
+        padding:20px;
+
+    }
+
+}
+
+/*======================================================================
+RESPONSIVE DASHBOARD
+----------------------------------------------------------------------
+
+Purpose
+--------
+Makes the AssetFlow dashboard responsive across:
+
+✔ Desktop (1200px+)
+✔ Laptop (992px - 1199px)
+✔ Tablet (768px - 991px)
+✔ Mobile (Below 768px)
+
+======================================================================*/
+
+
+/*=========================================================
+LARGE TABLETS
+(992px and below)
+=========================================================*/
+
+@media (max-width: 992px){
+
+    /* Sidebar */
+
+    .sidebar{
+
+        width:220px;
+
+    }
+
+    /* Dashboard cards */
+
+    .dashboard-card,
+    .kpi-card,
+    .analytics-card{
+
+        margin-bottom:20px;
+
+    }
+
+    /* Executive banner */
+
+    .executive-banner{
+
+        padding:25px;
+
+    }
+
+    .executive-stats{
+
+        margin-top:25px;
+
+    }
+
+}
+
+
+/*=========================================================
+TABLETS
+(768px and below)
+=========================================================*/
+
+@media (max-width:768px){
+
+    /* Layout */
+
+    .wrapper{
+
+        flex-direction:column;
+
+    }
+
+    /* Sidebar */
+
+    .sidebar{
+
+        width:100%;
+
+        min-height:auto;
+
+        padding:15px;
+
+    }
+
+    .logo{
+
+        text-align:center;
+
+        margin-bottom:20px;
+
+    }
+
+    .menu{
+
+        display:flex;
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:10px;
+
+    }
+
+    .menu li{
+
+        margin-bottom:0;
+
+    }
+
+    .menu a{
+
+        padding:10px 15px;
+
+        font-size:14px;
+
+    }
+
+    /* Content */
+
+    .content{
+
+        width:100%;
+
+    }
+
+    /* Topbar */
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+        height:auto;
+
+        padding:20px;
+
+    }
+
+    .topbar-right{
+
+        width:100%;
+
+        flex-wrap:wrap;
+
+        justify-content:space-between;
+
+    }
+
+    /* Search */
+
+    .search-box{
+
+        width:100%;
+
+    }
+
+    .search-box input{
+
+        width:100%;
+
+    }
+
+    /* Executive Banner */
+
+    .executive-banner{
+
+        text-align:center;
+
+    }
+
+    .executive-banner h2{
+
+        font-size:28px;
+
+    }
+
+    .executive-stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+        margin-top:25px;
+
+    }
+
+    /* KPI */
+
+    .kpi-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .kpi-details{
+
+        width:100%;
+
+    }
+
+    /* Tables */
+
+    .table-responsive{
+
+        overflow-x:auto;
+
+    }
+
+    /* Charts */
+
+    .chart-container{
+
+        height:300px;
+
+    }
+
+}
+
+
+/*=========================================================
+MOBILE DEVICES
+(576px and below)
+=========================================================*/
+
+@media (max-width:576px){
+
+    /* Page */
+
+    .page-content{
+
+        padding:15px;
+
+    }
+
+    /* Topbar */
+
+    .page-title{
+
+        font-size:22px;
+
+    }
+
+    /* Executive Banner */
+
+    .executive-banner{
+
+        padding:20px;
+
+    }
+
+    .executive-banner h2{
+
+        font-size:24px;
+
+    }
+
+    .executive-banner p{
+
+        font-size:14px;
+
+    }
+
+    .executive-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    /* Dashboard Cards */
+
+    .dashboard-card h2{
+
+        font-size:28px;
+
+    }
+
+    /* KPI */
+
+    .kpi-icon{
+
+        width:55px;
+
+        height:55px;
+
+        font-size:22px;
+
+    }
+
+    .kpi-details h3{
+
+        font-size:30px;
+
+    }
+
+    /* Notification Center */
+
+    .notification-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    /* Timeline */
+
+    .timeline-item{
+
+        gap:12px;
+
+    }
+
+    .timeline-content{
+
+        padding:14px;
+
+    }
+
+    /* User Profile */
+
+    .user-profile{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+    /* Charts */
+
+    .chart-container{
+
+        height:250px;
+
+    }
+
+}
+
+/*======================================================================
+EMPLOYEE COMPONENTS
+----------------------------------------------------------------------
+
+Purpose
+--------
+Reusable employee styles.
+
+======================================================================*/
+
+/*=========================================================
+Employee Avatar
+
+Displays employee initials when no profile image exists.
+
+=========================================================*/
+
+.employee-avatar{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+    font-size:16px;
+
+    flex-shrink:0;
+
+}
+
+/*=========================================================
+Employee Profile Photo
+
+=========================================================*/
+
+.employee-photo{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid var(--border-color);
+
+}
+
+/*=========================================================
+EMPLOYEE PROFILE PAGE
+=========================================================*/
+
+.employee-profile-card{
+
+    border:none;
+
+    border-radius:20px;
+
+    text-align:center;
+
+}
+
+.employee-profile-avatar{
+
+    width:140px;
+
+    height:140px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:46px;
+
+    font-weight:700;
+
+}
+
+.employee-profile-image{
+
+    width:140px;
+
+    height:140px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.form-control,
+.form-select{
+    height:52px;
+    border-radius:12px;
+    border:1px solid #dbe2ef;
+    padding:12px 16px;
+    font-size:15px;
+    transition:.25s;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+}
+
+.form-control,
+.form-select{
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe2ef;
+
+    padding:12px 16px;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+
+}
+
+textarea.form-control{
+
+    height:auto;
+
+}
+
+input[type=file].form-control{
+
+    height:auto;
+
+    padding:10px;
+
+}
+
+.dashboard-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+    transition:.3s;
+    height:100%;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+.dashboard-icon{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.form-label{
+    font-size:13px;
+    font-weight:600;
+    color:#64748b;
+    margin-bottom:8px;
+}
+
+.form-control,
+.form-select{
+    height:48px;
+    border-radius:12px;
+    border:1px solid #e5e7eb;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+    border-color:#2563eb;
+}
+
+.card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 10px 35px rgba(0,0,0,.05);
+}
+
+.table-responsive{
+    max-height:650px;
+    overflow:auto;
+}
+
+.table thead th{
+    position:sticky;
+    top:0;
+    background:#fff;
+    z-index:5;
+    font-size:13px;
+    font-weight:700;
+    color:#64748b;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    border-bottom:2px solid #edf2f7;
+}
+
+.table tbody tr{
+    transition:.25s;
+}
+
+.table tbody tr:hover{
+    background:#f8fafc;
+}
+
+.table td{
+    vertical-align:middle;
+    padding:18px 16px;
+}
+
+.rowCheckbox,
+#selectAll{
+    width:18px;
+    height:18px;
+    cursor:pointer;
+}
+
+.status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.status-badge i{
+    font-size:8px;
+}
+
+.status-badge.active{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status-badge.inactive{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.table-action{
+    width:38px;
+    height:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    text-decoration:none;
+    color:#64748b;
+    transition:.25s;
+}
+
+.table-action:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.table-action:last-child:hover{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.employee-count{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    font-weight:700;
+}
+
+.selected-row{
+    background:#eff6ff !important;
+}
+
+.btn-add{
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.btn-outline-secondary:hover{
+
+    background:#f8fafc;
+
+    border-color:#cbd5e1;
+
+    color:#0f172a;
+
+}

@@ -4,13 +4,22 @@ from apps.departments.models import Department
 from apps.locations.models import Location
 from apps.manufacturers.models import Manufacturer
 
+import qrcode
+
+from io import BytesIO
+
+from django.core.files import File
+
+created_at = models.DateTimeField(auto_now_add=True)
+
 
 class AssetStatus(models.TextChoices):
     AVAILABLE = "AVAILABLE", "Available"
     ASSIGNED = "ASSIGNED", "Assigned"
     MAINTENANCE = "MAINTENANCE", "Maintenance"
     DISPOSED = "DISPOSED", "Disposed"
-    LOST = "LOST", "Lost"
+    LOST = "LOST", "Lost",
+    DAMAGED = "DAMAGED", "Damaged"
 
 
 # -------------------------
@@ -113,6 +122,26 @@ class Asset(models.Model):
         default=AssetStatus.AVAILABLE
     )
 
+    description = models.TextField(
+        blank=True,
+    )
+
+    remarks = models.TextField(
+        blank=True,
+    )
+
+    asset_image = models.ImageField(
+        upload_to="assets/images/",
+        blank=True,
+        null=True,
+    )
+
+    qr_code = models.ImageField(
+        upload_to="assets/qrcodes/",
+        blank=True,
+        null=True,
+    )
+
     purchase_date = models.DateField()
 
     purchase_price = models.DecimalField(
@@ -125,46 +154,64 @@ class Asset(models.Model):
         null=True
     )
 
+    # ============================================================
+    # Audit Fields
+    # ============================================================
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+    
     def __str__(self):
         return f"{self.asset_number} - {self.name}"
     
     def save(self, *args, **kwargs):
 
+        # Generate Asset Number
         if not self.asset_number:
 
             last_asset = Asset.objects.order_by("id").last()
 
             if last_asset:
-                last_number = int(last_asset.asset_number.replace("AST", ""))
+                last_number = int(
+                    last_asset.asset_number.replace(
+                        "AST",
+                        "",
+                    )
+                )
                 next_number = last_number + 1
             else:
                 next_number = 1
 
             self.asset_number = f"AST{next_number:06d}"
 
+        # Save first so we have a primary key
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.asset_number} - {self.name}"
+        # Generate QR Code only once
+        if not self.qr_code:
 
+            qr = qrcode.make(
+                f"http://127.0.0.1:8000/assets/{self.pk}/"
+            )
 
-    def save(self, *args, **kwargs):
+            buffer = BytesIO()
 
-        if not self.asset_number:
+            qr.save(
+                buffer,
+                format="PNG",
+            )
 
-            last_asset = Asset.objects.order_by("id").last()
+            filename = f"{self.asset_number}.png"
 
-            if last_asset:
-                last_number = int(last_asset.asset_number.replace("AST", ""))
-                next_number = last_number + 1
-            else:
-                next_number = 1
+            self.qr_code.save(
+                filename,
+                File(buffer),
+                save=False,
+            )
 
-            self.asset_number = f"AST{next_number:06d}"
-
-        super().save(*args, **kwargs)
-
-
-
-    class Meta:
-        ordering = ["asset_number"]
+            super().save(update_fields=["qr_code"])

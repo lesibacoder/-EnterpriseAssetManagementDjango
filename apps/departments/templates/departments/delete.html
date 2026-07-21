@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Department
+{% endblock %}
+
+{% block page_title %}
+Delete Department
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-body text-center">
+
+        <i class="fas fa-trash fa-4x text-danger mb-4"></i>
+
+        <h3>
+
+            Delete Department?
+
+        </h3>
+
+        <p>
+
+            You are about to delete
+
+            <strong>
+
+                {{ department.name }}
+
+            </strong>
+
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button
+
+                class="btn btn-danger">
+
+                Delete
+
+            </button>
+
+            <a
+
+                href="{% url 'department_index' %}"
+
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
